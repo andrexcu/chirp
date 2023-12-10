@@ -20,6 +20,7 @@ export const postsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const posts = await ctx.db.post.findMany({
       take: 100,
+      orderBy: [{ createdAt: "desc" }],
     });
 
     // const userId = posts.flatMap(post => (post.createdById))
@@ -41,8 +42,6 @@ export const postsRouter = createTRPCRouter({
       })
     ).map(filterUserForClient);
 
-    console.log(users);
-
     return posts.map((post) => {
       const user = users.find((user) => user.id === post.createdById);
       if (!user || !user.name || !user.image)
@@ -61,4 +60,23 @@ export const postsRouter = createTRPCRouter({
       };
     });
   }),
+
+  create: protectedProcedure
+    .input(
+      z.object({
+        content: z.string().emoji().min(1).max(280),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+
+      const post = await ctx.db.post.create({
+        data: {
+          createdById: userId,
+          content: input.content,
+        },
+      });
+
+      return post;
+    }),
 });
