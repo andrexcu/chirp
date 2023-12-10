@@ -25,11 +25,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body
+        className={`font-sans ${inter.variable} overflow-none flex h-screen justify-center`}
+      >
         <TRPCReactProvider cookies={cookies().toString()}>
           <ToasterProvider />
           <SkeletonTheme baseColor="#DBE2E9" highlightColor="#808992">
-            {children}
+            <div className="flex h-full w-full flex-col border-x border-slate-400 md:max-w-2xl">
+              {children}
+            </div>
           </SkeletonTheme>
         </TRPCReactProvider>
       </body>

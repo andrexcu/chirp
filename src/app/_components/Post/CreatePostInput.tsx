@@ -30,12 +30,11 @@ const CreatePostInput = () => {
       <input
         placeholder="Type something"
         type="text"
-        className="
-      value={input]
-      grow
-      bg-transparent
-      outline-none
-    "
+        className={` 
+            grow
+            bg-transparent
+            outline-none
+            ${input && "border-b border-slate-200/20"}`}
         value={input}
         onChange={(e) => {
           setInput(e.target.value);

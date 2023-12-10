@@ -15,10 +15,7 @@ const PostView = (props: PostWithUser) => {
   const { post, user } = props;
   const { data, isLoading } = api.posts.getAll.useQuery();
   return (
-    <div
-      key={post.id}
-      className="flex items-center border-b border-slate-400 p-8"
-    >
+    <div key={post.id} className="flex gap-3 border-b border-slate-400 p-8">
       <Image
         src={user.image as string}
         alt={`@${user.name}'s profile picture`}
@@ -28,8 +25,8 @@ const PostView = (props: PostWithUser) => {
         quality="100"
         priority
       />
-      <div className=" flex flex-col p-4">
-        <div className="text-slate-30 flex">
+      <div className=" flex flex-col">
+        <div className="text-slate-30 flex gap-1">
           <span className="text-sm">
             {`@${user.name}`}
             <span className="px-1 font-thin">{`· ${dayjs(
@@ -50,7 +47,7 @@ const Post = () => {
   if (!data) return <div>Something went wrong</div>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex h-full flex-col overflow-y-auto">
       {data?.map((fullPost) => (
         <PostView {...fullPost} key={fullPost.post.id} />
       ))}

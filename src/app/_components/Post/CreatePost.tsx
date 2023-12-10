@@ -9,17 +9,21 @@ const CreatePost = async () => {
   const currentUser = session?.user;
 
   return (
-    <div className="flex w-full gap-3 border-b border-slate-400 p-8">
-      <Image
-        src={currentUser?.image as string}
-        alt="profile"
-        height={56}
-        width={56}
-        className="rounded-full"
-        quality="100"
-        priority
-      />
-      <CreatePostInput />
+    <div className="flex w-full gap-3">
+      {currentUser && (
+        <>
+          <Image
+            src={currentUser?.image as string}
+            alt="profile"
+            height={56}
+            width={56}
+            className="rounded-full"
+            quality="100"
+            priority
+          />
+          <CreatePostInput />
+        </>
+      )}
     </div>
   );
 };
