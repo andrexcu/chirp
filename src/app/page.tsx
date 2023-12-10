@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/react";
@@ -18,12 +17,12 @@ export default async function Home() {
     <main className="flex h-screen justify-center">
       <div className="w-full border-x border-slate-400 md:max-w-2xl">
         {currentUser && (
-          <div className="flex w-full gap-3 p-3">
+          <div className="flex w-full gap-3 border-b border-slate-400 p-8">
             <Image
               src={currentUser?.image as string}
               alt="profile"
-              height={64}
-              width={64}
+              height={56}
+              width={56}
               className="rounded-full"
               quality="100"
               priority
@@ -39,14 +38,14 @@ export default async function Home() {
             />
           </div>
         )}
-        <div className="border-b border-slate-400 p-4">
+        {/* <div className="border-b border-slate-400 p-4">
           <Link
             href={session ? "/api/auth/signout" : "/api/auth/signin"}
             className="center"
           >
             {session ? "Sign out" : "Sign in"}
           </Link>
-        </div>
+        </div> */}
         <Post />
       </div>
     </main>

@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
-
+import { SkeletonTheme } from "react-loading-skeleton";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -25,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
         <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
+          <SkeletonTheme baseColor="#DBE2E9" highlightColor="#808992">
+            {children}
+          </SkeletonTheme>
         </TRPCReactProvider>
       </body>
     </html>
