@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { SkeletonTheme } from "react-loading-skeleton";
+import ToasterProvider from "~/providers/ToasterProvider";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -25,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
         <TRPCReactProvider cookies={cookies().toString()}>
+          <ToasterProvider />
           <SkeletonTheme baseColor="#DBE2E9" highlightColor="#808992">
             {children}
           </SkeletonTheme>
