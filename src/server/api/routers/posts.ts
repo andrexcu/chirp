@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { User } from "@prisma/client";
+import { input_validation } from "~/app/validators/input_validation";
 
 import {
   createTRPCRouter,
@@ -11,8 +12,8 @@ import { TRPCError } from "@trpc/server";
 const filterUserForClient = (user: User) => {
   return {
     id: user.id,
-    name: user.name,
-    image: user.image,
+    name: user.name as string,
+    image: user.image as string,
   };
 };
 
@@ -39,14 +40,6 @@ export const postsRouter = createTRPCRouter({
       orderBy: [{ createdAt: "desc" }],
     });
 
-    // const userId = posts.flatMap(post => (post.createdById))
-    // const userId = posts.map((post) => post.createdById);
-
-    // const user = await ctx.db.user.findUnique({
-    //   where: {
-    //     id: userId,
-    //   },
-    // });
     const post_userId = posts.map((post) => post.createdById);
     const users = (
       await ctx.db.user.findMany({
@@ -60,7 +53,7 @@ export const postsRouter = createTRPCRouter({
 
     return posts.map((post) => {
       const user = users.find((user) => user.id === post.createdById);
-      if (!user || !user.name || !user.image)
+      if (!user)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Author for post not found",
@@ -68,21 +61,13 @@ export const postsRouter = createTRPCRouter({
 
       return {
         post,
-        user: {
-          ...user,
-          name: user.name,
-          image: user.image,
-        },
+        user,
       };
     });
   }),
 
   create: protectedProcedure
-    .input(
-      z.object({
-        content: z.string().emoji("Only emojis are allowed").min(1).max(280),
-      }),
-    )
+    .input(input_validation)
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
 
