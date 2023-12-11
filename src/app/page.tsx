@@ -20,10 +20,6 @@ export default async function Home() {
         {session && <CreatePost />}
       </div>
       <Post />
-
-      {/* <div className="flex items-center justify-between p-4 text-xl">
-          
-        </div> */}
     </>
   );
 }
